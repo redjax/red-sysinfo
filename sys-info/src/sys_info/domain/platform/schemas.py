@@ -65,6 +65,24 @@ class PlatformInfoBase:
     uname: PlatformUname = field(default_factory=get_platform_uname)
     python: PlatformPython = field(default_factory=get_platform_python)
 
+    def is_linux():
+        raise NotImplementedError
+
+    def is_unix():
+        raise NotImplementedError
+
+    def is_win():
+        raise NotImplementedError
+
+    def is_mac():
+        raise NotImplementedError
+
+    def is_32bit():
+        raise NotImplementedError
+
+    def is_64bit():
+        raise NotImplementedError
+
 
 @dataclass
 class PlatformInfo(PlatformInfoBase):
