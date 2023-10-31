@@ -40,9 +40,11 @@ class EnumPlatform(Enum):
     PLATFORM: str = platform.platform()
     PLATFORM_TERSE: str = platform.platform(terse=True)
     PLATFORM_ALIASED: str = platform.platform(aliased=True)
+    MACHINE: str = platform.machine()
     SYSTEM: str = platform.system()
     RELEASE: str = platform.release()
     VERSION: str = platform.version()
+    PROCESSOR: str = platform.processor()
     ARCH: tuple[str, str] = platform.architecture()
     UNAME: NamedTuple = platform.uname()
 
@@ -123,3 +125,10 @@ class EnumPython(Enum):
     REVISION: str = platform.python_revision()
     VERSION: str = platform.python_version()
     VERSION_TUPLE: Tuple[str, str, str] = platform.python_version_tuple()
+
+class EnumSystemTypes(Enum):
+    """Enumerate options for platform.uname().system."""
+    LINUX: str = "Linux"
+    MAC: str = "Darwin"
+    WINDOWS: str = "Windows"
+    JAVA: str = "Java"
