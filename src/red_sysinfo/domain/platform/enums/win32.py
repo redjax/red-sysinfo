@@ -5,6 +5,7 @@ import platform
 
 from typing import NamedTuple, Tuple
 
+
 class EnumWin32(Enum):
     VERSION: Tuple[str] = platform.win32_ver()
     EDITION: str = platform.win32_edition()

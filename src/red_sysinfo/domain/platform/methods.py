@@ -5,6 +5,7 @@ import sys
 from types import ModuleType
 from typing import Union
 
+
 def get_sys_byteorder() -> str:
     """Return "big" or "little.
 
@@ -67,7 +68,7 @@ def get_python_float_info() -> tuple[Union[int, float]]:
 
 
 def get_python_default_encoding() -> str:
-    """Return environment's default encoding parameter. Default value is 'utf-8.'"""
+    """Return environment's default encoding parameter. Default value is 'utf-8.'."""
     return sys.getdefaultencoding()
 
 

@@ -5,6 +5,7 @@ import platform
 
 from typing import NamedTuple, Tuple
 
+
 class EnumUnix(Enum):
     LIBC_VER: Tuple[str] = platform.libc_ver()
 

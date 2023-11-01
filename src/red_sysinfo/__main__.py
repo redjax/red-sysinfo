@@ -4,8 +4,8 @@ import sys
 
 sys.path.append(".")
 
-from red_sys.domain.platform import PlatformInfo
-from red_sys.utils.platform_utils import get_platform
+from red_sysinfo.domain.platform import PlatformInfo
+from red_sysinfo.utils.platform_utils import get_platform
 
 ## Initialize platform object
 PLATFORM: PlatformInfo = get_platform()

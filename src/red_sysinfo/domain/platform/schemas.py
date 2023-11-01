@@ -46,7 +46,7 @@ def get_platform_python() -> "PlatformPython":
 
 @dataclass
 class DictMixin:
-    """Mixing class to add "as_dict()" method to classes. Equivalent to .__dict__
+    """Mixing class to add "as_dict()" method to classes. Equivalent to .__dict__.
 
     Add a .as_dict() method to classes that inherit from this mixin. For example,
     to add .as_dict() method to a parent class, where all children inherit the .as_dict()

@@ -6,8 +6,8 @@ sys.path.append(".")
 
 import platform
 
-from red_sys import PLATFORM
-from red_sys.domain.platform import (
+from red_sysinfo import PLATFORM
+from red_sysinfo.domain.platform import (
     PlatformInfo,
     PlatformPython,
     PlatformUname,
