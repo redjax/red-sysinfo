@@ -1,14 +1,12 @@
-from typing import Union, Any, NamedTuple, Tuple
+from typing import Union, Any, NamedTuple, Tuple, TypeVar, Generic
 from types import ModuleType
-import platform
-import sys
 
 from .enums.cross_platform import EnumPlatform, EnumUname, EnumPython, EnumSystemTypes
 from .enums.win32 import EnumWin32
 from .enums.mac import EnumMac
 from .enums.unix import EnumLinux, EnumUnix
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, asdict
 
 from .methods import (
     get_sys_byteorder,
@@ -25,14 +23,19 @@ from .methods import (
     get_python_max_int_digits,
     get_python_recursion_limit,
     get_python_maxsize,
-    get_python_maxunicode
+    get_python_maxunicode,
 )
+
+## Generic type for dataclass classes
+T = TypeVar("T")
+
 
 def get_platform_uname() -> "PlatformUname":
     """Return an initalized PlatformUname instance."""
     _uname: PlatformUname = PlatformUname()
 
     return _uname
+
 
 def get_platform_python() -> "PlatformPython":
     """Return an initalized PlatformPython instance."""
@@ -42,7 +45,36 @@ def get_platform_python() -> "PlatformPython":
 
 
 @dataclass
-class PlatformUname:
+class DictMixin:
+    """Mixing class to add "as_dict()" method to classes. Equivalent to .__dict__
+
+    Add a .as_dict() method to classes that inherit from this mixin. For example,
+    to add .as_dict() method to a parent class, where all children inherit the .as_dict()
+    function, declare parent as:
+
+    @dataclass
+    class Parent(DictMixin):
+        ...
+
+    and call like:
+
+        p = Parent()
+        p_dict = p.as_dict()
+    """
+
+    def as_dict(self: Generic[T]):
+        """Return dict representation of a dataclass instance."""
+        try:
+            return self.__dict__.copy()
+
+        except Exception as exc:
+            raise Exception(
+                f"Unhandled exception converting class instance to dict. Details: {exc}"
+            )
+
+
+@dataclass
+class PlatformUname(DictMixin):
     system: str = field(default=EnumUname.SYSTEM.value)
     node: str = field(default=EnumUname.NODE.value)
     release: str = field(default=EnumUname.RELEASE.value)
@@ -51,7 +83,7 @@ class PlatformUname:
 
 
 @dataclass
-class PlatformPython:
+class PlatformPython(DictMixin):
     """Information about the Python implementation for the platform."""
 
     build: Tuple[str, str] = EnumPython.BUILD.value
@@ -76,8 +108,9 @@ class PlatformPython:
     maxsize: int = field(default_factory=get_python_maxsize)
     maxunicode: int = field(default_factory=get_python_maxunicode)
 
+
 @dataclass
-class PlatformInfoBase:
+class PlatformInfoBase(DictMixin):
     """Store cross-platform information gleaned from platform module.
 
     Platform-specific functionality is implemented in Platform<x> children,
@@ -105,7 +138,7 @@ class PlatformInfoBase:
         else:
             return False
 
-    def is_unix(self)-> bool:
+    def is_unix(self) -> bool:
         if self.system in [EnumSystemTypes.LINUX.value, EnumSystemTypes.MAC.value]:
             return True
         else:
@@ -122,7 +155,7 @@ class PlatformInfoBase:
             return True
         else:
             return False
-        
+
     def is_java(self) -> bool:
         if self.system == EnumSystemTypes.JAVA.value:
             return True
@@ -130,13 +163,13 @@ class PlatformInfoBase:
             return False
 
     def is_32bit(self) -> bool:
-        if '32bit' in self.arch:
+        if "32bit" in self.arch:
             return True
         else:
             return False
 
     def is_64bit(self) -> bool:
-        if '64bit' in self.arch:
+        if "64bit" in self.arch:
             return True
         else:
             return False
