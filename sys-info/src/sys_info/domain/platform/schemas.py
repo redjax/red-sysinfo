@@ -1,29 +1,29 @@
-from typing import Union, Any, NamedTuple, Tuple, TypeVar, Generic
-from types import ModuleType
+from __future__ import annotations
 
-from .enums.cross_platform import EnumPlatform, EnumUname, EnumPython, EnumSystemTypes
-from .enums.win32 import EnumWin32
+from dataclasses import asdict, dataclass, field
+from types import ModuleType
+from typing import Any, Generic, NamedTuple, Tuple, TypeVar, Union
+
+from .enums.cross_platform import EnumPlatform, EnumPython, EnumSystemTypes, EnumUname
 from .enums.mac import EnumMac
 from .enums.unix import EnumLinux, EnumUnix
-
-from dataclasses import dataclass, field, asdict
-
+from .enums.win32 import EnumWin32
 from .methods import (
-    get_sys_byteorder,
-    get_python_path,
-    get_python_modules,
     get_python_base_prefix,
+    get_python_copyright,
+    get_python_default_encoding,
     get_python_exec_prefix,
     get_python_executable,
-    get_python_copyright,
-    get_python_suppress_bytecode,
     get_python_flags,
     get_python_float_info,
-    get_python_default_encoding,
     get_python_max_int_digits,
-    get_python_recursion_limit,
     get_python_maxsize,
     get_python_maxunicode,
+    get_python_modules,
+    get_python_path,
+    get_python_recursion_limit,
+    get_python_suppress_bytecode,
+    get_sys_byteorder,
 )
 
 ## Generic type for dataclass classes

@@ -1,13 +1,14 @@
+from __future__ import annotations
+
 import sys
 
 sys.path.append(".")
 
 import platform
 
-from sys_info.utils.platform_utils import get_platform
 from sys_info import PLATFORM
 from sys_info.domain.platform import PlatformInfo, PlatformPython, PlatformUname
-
+from sys_info.utils.platform_utils import get_platform
 
 def test_platform(platform: PlatformInfo = PLATFORM) -> None:
     _dict = platform.as_dict()

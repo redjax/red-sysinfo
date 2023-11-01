@@ -1,7 +1,9 @@
-from typing import NamedTuple, Tuple
+from __future__ import annotations
+
 from enum import Enum
 import platform
 
+from typing import NamedTuple, Tuple
 
 class EnumPlatform(Enum):
     """Enumerate platform module outputs.
@@ -50,8 +52,7 @@ class EnumPlatform(Enum):
 
 
 class EnumUname(Enum):
-    """
-    Enumerate platform.uname() properties.
+    """Enumerate platform.uname() properties.
 
     Usage:
     ------
@@ -86,8 +87,7 @@ class EnumUname(Enum):
 
 
 class EnumPython(Enum):
-    """
-    Enumerate platform.uname() properties.
+    """Enumerate platform.uname() properties.
 
     Usage:
     ------
@@ -126,8 +126,10 @@ class EnumPython(Enum):
     VERSION: str = platform.python_version()
     VERSION_TUPLE: Tuple[str, str, str] = platform.python_version_tuple()
 
+
 class EnumSystemTypes(Enum):
     """Enumerate options for platform.uname().system."""
+
     LINUX: str = "Linux"
     MAC: str = "Darwin"
     WINDOWS: str = "Windows"

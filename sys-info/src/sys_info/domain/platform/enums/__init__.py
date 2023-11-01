@@ -1,9 +1,7 @@
-from . import cross_platform
-from . import win32
-from . import mac
-from . import unix
+from __future__ import annotations
 
-from .cross_platform import EnumPlatform, EnumPython, EnumUname, EnumSystemTypes
-from .win32 import EnumWin32
+from . import cross_platform, mac, unix, win32
+from .cross_platform import EnumPlatform, EnumPython, EnumSystemTypes, EnumUname
 from .mac import EnumMac
 from .unix import EnumLinux, EnumUnix
+from .win32 import EnumWin32

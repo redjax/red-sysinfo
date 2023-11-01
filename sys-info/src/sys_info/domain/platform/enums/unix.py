@@ -1,7 +1,9 @@
-from typing import NamedTuple, Tuple
+from __future__ import annotations
+
 from enum import Enum
 import platform
 
+from typing import NamedTuple, Tuple
 
 class EnumUnix(Enum):
     LIBC_VER: Tuple[str] = platform.libc_ver()
