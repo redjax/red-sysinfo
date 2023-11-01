@@ -1,0 +1,18 @@
+repos:
+  ## Ruff check & fix
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    # Ruff version.
+    rev: v0.0.278
+    hooks:
+      - id: ruff
+        ## , --exit-non-zero-on-fix
+        args: [--fix]
+        ## Run on notebooks too
+        types_or: [python, pyi, jupyter]
+
+  ## Black format
+  - repo: https://github.com/ambv/black
+    rev: 23.7.0
+    hooks:
+      - id: black
+        language_version: python3.11
