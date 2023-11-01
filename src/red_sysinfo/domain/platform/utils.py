@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from .schemas import PlatformInfo
 
-
 def print_platform(p: PlatformInfo = None, print_large_values: bool = False) -> None:
     """Print report on platform.
 

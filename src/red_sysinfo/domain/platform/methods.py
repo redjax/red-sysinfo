@@ -5,7 +5,6 @@ import sys
 from types import ModuleType
 from typing import Union
 
-
 def get_sys_byteorder() -> str:
     """Return "big" or "little.
 
