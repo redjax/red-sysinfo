@@ -17,7 +17,12 @@ text = "MIT"
 Repository = "https://github.com/redjax/red-sys"
 
 [tool.pdm.dev-dependencies]
-dev = ["black>=23.10.1", "pytest>=7.4.3", "ruff>=0.1.3"]
+dev = [
+    "black>=23.10.1",
+    "pytest>=7.4.3",
+    "ruff>=0.1.3",
+    "pre-commit>=3.5.0",
+]
 
 [tool.pdm.scripts]
 
