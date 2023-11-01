@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from sys_info.domain.platform import PlatformInfo
+from red_sys.domain.platform import PlatformInfo
 
 def get_platform() -> PlatformInfo:
     """Return an instance of PlatformInfo.

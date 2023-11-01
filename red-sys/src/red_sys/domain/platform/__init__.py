@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from . import enums, methods, schemas
+from . import enums, methods, schemas, utils
 from .enums import (
     EnumLinux,
     EnumMac,
@@ -36,3 +36,4 @@ from .schemas import (
     PlatformUnixInfo,
     PlatformWinInfo,
 )
+from .utils import print_platform

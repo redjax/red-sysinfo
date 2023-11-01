@@ -6,7 +6,7 @@ from types import ModuleType
 from typing import Union
 
 def get_sys_byteorder() -> str:
-    """Returns "big" or "little.
+    """Return "big" or "little.
 
     "big" for big-endian (most-significant byte first) platforms.
     "little" on little-endian (least-significant byte first) platforms.
