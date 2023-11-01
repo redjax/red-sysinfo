@@ -1,16 +1,80 @@
-from typing import Union, Any, NamedTuple, Tuple
-import platform
+from typing import Union, Any, NamedTuple, Tuple, TypeVar, Generic
+from types import ModuleType
 
-from .enums.cross_platform import EnumPlatform, EnumUname, EnumPython
+from .enums.cross_platform import EnumPlatform, EnumUname, EnumPython, EnumSystemTypes
 from .enums.win32 import EnumWin32
 from .enums.mac import EnumMac
 from .enums.unix import EnumLinux, EnumUnix
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, asdict
+
+from .methods import (
+    get_sys_byteorder,
+    get_python_path,
+    get_python_modules,
+    get_python_base_prefix,
+    get_python_exec_prefix,
+    get_python_executable,
+    get_python_copyright,
+    get_python_suppress_bytecode,
+    get_python_flags,
+    get_python_float_info,
+    get_python_default_encoding,
+    get_python_max_int_digits,
+    get_python_recursion_limit,
+    get_python_maxsize,
+    get_python_maxunicode,
+)
+
+## Generic type for dataclass classes
+T = TypeVar("T")
+
+
+def get_platform_uname() -> "PlatformUname":
+    """Return an initalized PlatformUname instance."""
+    _uname: PlatformUname = PlatformUname()
+
+    return _uname
+
+
+def get_platform_python() -> "PlatformPython":
+    """Return an initalized PlatformPython instance."""
+    _python: PlatformPython = PlatformPython()
+
+    return _python
 
 
 @dataclass
-class PlatformUname:
+class DictMixin:
+    """Mixing class to add "as_dict()" method to classes. Equivalent to .__dict__
+
+    Add a .as_dict() method to classes that inherit from this mixin. For example,
+    to add .as_dict() method to a parent class, where all children inherit the .as_dict()
+    function, declare parent as:
+
+    @dataclass
+    class Parent(DictMixin):
+        ...
+
+    and call like:
+
+        p = Parent()
+        p_dict = p.as_dict()
+    """
+
+    def as_dict(self: Generic[T]):
+        """Return dict representation of a dataclass instance."""
+        try:
+            return self.__dict__.copy()
+
+        except Exception as exc:
+            raise Exception(
+                f"Unhandled exception converting class instance to dict. Details: {exc}"
+            )
+
+
+@dataclass
+class PlatformUname(DictMixin):
     system: str = field(default=EnumUname.SYSTEM.value)
     node: str = field(default=EnumUname.NODE.value)
     release: str = field(default=EnumUname.RELEASE.value)
@@ -18,15 +82,8 @@ class PlatformUname:
     machine: str = field(default=EnumUname.MACHINE.value)
 
 
-def get_platform_uname() -> PlatformUname:
-    """Return an initalized PlatformUname instance."""
-    _uname: PlatformUname = PlatformUname()
-
-    return _uname
-
-
 @dataclass
-class PlatformPython:
+class PlatformPython(DictMixin):
     """Information about the Python implementation for the platform."""
 
     build: Tuple[str, str] = EnumPython.BUILD.value
@@ -36,17 +93,24 @@ class PlatformPython:
     revision: str = EnumPython.REVISION.value
     version: str = EnumPython.VERSION.value
     version_tuple: Tuple[str, str, str] = EnumPython.VERSION_TUPLE.value
-
-
-def get_platform_python() -> PlatformPython:
-    """Return an initalized PlatformPython instance."""
-    _python: PlatformPython = PlatformPython()
-
-    return _python
+    path: list[str] = field(default_factory=get_python_path)
+    modules: list[ModuleType] = field(default_factory=get_python_modules)
+    base_prefix: str = field(default_factory=get_python_base_prefix)
+    exec_prefix: str = field(default_factory=get_python_exec_prefix)
+    copyright: str = field(default_factory=get_python_copyright)
+    dont_write_bytecode: bool = field(default_factory=get_python_suppress_bytecode)
+    executable: str = field(default_factory=get_python_executable)
+    flags: tuple[Union[int, bool]] = field(default_factory=get_python_flags)
+    float_info: tuple[Union[int, float]] = field(default_factory=get_python_float_info)
+    default_encoding: str = field(default_factory=get_python_default_encoding)
+    int_max_str_digits: int = field(default_factory=get_python_max_int_digits)
+    recursion_limit: int = field(default_factory=get_python_recursion_limit)
+    maxsize: int = field(default_factory=get_python_maxsize)
+    maxunicode: int = field(default_factory=get_python_maxunicode)
 
 
 @dataclass
-class PlatformInfoBase:
+class PlatformInfoBase(DictMixin):
     """Store cross-platform information gleaned from platform module.
 
     Platform-specific functionality is implemented in Platform<x> children,
@@ -58,12 +122,57 @@ class PlatformInfoBase:
     platform: str = field(default=EnumPlatform.PLATFORM.value)
     platform_terse: str = field(default=EnumPlatform.PLATFORM_TERSE.value)
     platform_aliased: str = field(default=EnumPlatform.PLATFORM_ALIASED.value)
+    machine: str = field(default=EnumPlatform.MACHINE.value)
     system: str = field(default=EnumPlatform.SYSTEM.value)
     release: str = field(default=EnumPlatform.RELEASE.value)
     version: str = field(default=EnumPlatform.VERSION.value)
+    processor: str | None = field(default=EnumPlatform.PROCESSOR.value)
     arch: tuple[str, str] = field(default=EnumPlatform.ARCH.value)
     uname: PlatformUname = field(default_factory=get_platform_uname)
     python: PlatformPython = field(default_factory=get_platform_python)
+    byteorder: str = field(default_factory=get_sys_byteorder)
+
+    def is_linux(self) -> bool:
+        if self.system == EnumSystemTypes.LINUX.value:
+            return True
+        else:
+            return False
+
+    def is_unix(self) -> bool:
+        if self.system in [EnumSystemTypes.LINUX.value, EnumSystemTypes.MAC.value]:
+            return True
+        else:
+            return False
+
+    def is_win(self) -> bool:
+        if self.system == EnumSystemTypes.WINDOWS.value:
+            return True
+        else:
+            return False
+
+    def is_mac(self) -> bool:
+        if self.system == EnumSystemTypes.MAC.value:
+            return True
+        else:
+            return False
+
+    def is_java(self) -> bool:
+        if self.system == EnumSystemTypes.JAVA.value:
+            return True
+        else:
+            return False
+
+    def is_32bit(self) -> bool:
+        if "32bit" in self.arch:
+            return True
+        else:
+            return False
+
+    def is_64bit(self) -> bool:
+        if "64bit" in self.arch:
+            return True
+        else:
+            return False
 
 
 @dataclass
