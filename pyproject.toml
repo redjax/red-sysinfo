@@ -1,6 +1,6 @@
 [project]
 name = "red_sysinfo"
-version = "0.1.0"
+version = "0.1.1"
 description = "Compile platform information from 'sys' and 'platform' modules into a single PLATFORM class."
 authors = [
     { name = "redjax", email = "none@none.com" },
@@ -25,40 +25,38 @@ dev = [
     "pdm-bump>=0.7.3",
 ]
 
-[tool.pdm.scripts]
+[tool.pdm.scripts.start-example]
+shell = "cd src && pdm run python example.py"
 
-#################
-# Start scripts #
-#################
+[tool.pdm.scripts.lint]
+shell = "pdm run black . && pdm run ruff check . --fix"
 
-start-example = { shell = "cd src && pdm run python example.py" }
+[tool.pdm.scripts.check]
+cmd = "black ."
 
-###############
-# Format/Lint #
-###############
+[tool.pdm.scripts.format]
+cmd = "ruff check . --fix"
 
-# Run black & ruff
-lint = { shell = "pdm run black . && pdm run ruff check . --fix" }
-# Check only, don't fix
-check = { cmd = "black ." }
-# Check and fix
-format = { cmd = "ruff check . --fix" }
+[tool.pdm.scripts.git-prune-tags]
+cmd = "git fetch --prune origin '+refs/tags/*:refs/tags/*'"
 
-## Prune tags
-git-prune-tags = { cmd = "git fetch --prune origin '+refs/tags/*:refs/tags/*'" }
+[tool.pdm.scripts.create-major-release]
+shell = "pdm bump major && pdm bump tag && pdm lock && pdm build && git push --tags"
 
-## Create releases
-create-major-release = { shell = "pdm bump major && pdm bump tag && pdm lock && pdm build && git push --tags" }
-create-minor-release = { shell = "pdm bump minor && pdm bump tag && pdm lock && pdm build && git push --tags" }
-create-micro-release = { shell = "pdm bump micro && pdm bump tag && pdm lock && pdm build && git push --tags" }
+[tool.pdm.scripts.create-minor-release]
+shell = "pdm bump minor && pdm bump tag && pdm lock && pdm build && git push --tags"
 
-## Package uploads
-upload-pypi = { shell = "pdm lock && pdm publish --repository pypi --verbose" }
-upload-pypi-test = { shell = "pdm lock && pdm publish --repository test-pypi --verbose" }
+[tool.pdm.scripts.create-micro-release]
+shell = "pdm bump micro && pdm bump tag && pdm lock && pdm build && git push --tags"
 
-#######################
-# Requirements Export #
-#######################
+[tool.pdm.scripts.upload-pypi]
+shell = "pdm lock && pdm publish --repository pypi --verbose"
 
-export = { shell = "pdm export --prod -o requirements.txt --without-hashes" }
-export-dev = { shell = "pdm export -d -o requirements.dev.txt --without-hashes" }
+[tool.pdm.scripts.upload-pypi-test]
+shell = "pdm lock && pdm publish --repository test-pypi --verbose"
+
+[tool.pdm.scripts.export]
+shell = "pdm export --prod -o requirements.txt --without-hashes"
+
+[tool.pdm.scripts.export-dev]
+shell = "pdm export -d -o requirements.dev.txt --without-hashes"
