@@ -60,3 +60,6 @@ shell = "pdm export --prod -o requirements.txt --without-hashes"
 
 [tool.pdm.scripts.export-dev]
 shell = "pdm export -d -o requirements.dev.txt --without-hashes"
+
+[tool.pdm.scripts.tests]
+shell = "pdm run pytest -v"
