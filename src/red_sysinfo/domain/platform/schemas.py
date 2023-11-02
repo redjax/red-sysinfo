@@ -4,10 +4,17 @@ from dataclasses import asdict, dataclass, field
 from types import ModuleType
 from typing import Any, Generic, NamedTuple, Tuple, TypeVar, Union
 
-from .enums.cross_platform import EnumPlatform, EnumPython, EnumSystemTypes, EnumUname
-from .enums.mac import EnumMac
-from .enums.unix import EnumLinux, EnumUnix
-from .enums.win32 import EnumWin32
+from red_sysinfo.domain.enums.platform import (
+    EnumLinux,
+    EnumMac,
+    EnumPlatform,
+    EnumPython,
+    EnumSystemTypes,
+    EnumUname,
+    EnumUnix,
+    EnumWin32,
+)
+
 from .methods import (
     get_python_base_prefix,
     get_python_copyright,
@@ -46,7 +53,7 @@ def get_platform_python() -> "PlatformPython":
 
 @dataclass
 class DictMixin:
-    """Mixing class to add "as_dict()" method to classes. Equivalent to .__dict__.
+    """Mixin class to add "as_dict()" method to classes. Equivalent to .__dict__.
 
     Add a .as_dict() method to classes that inherit from this mixin. For example,
     to add .as_dict() method to a parent class, where all children inherit the .as_dict()
