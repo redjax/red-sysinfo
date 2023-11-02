@@ -1,6 +1,6 @@
 [project]
 name = "red_sysinfo"
-version = "0.1.1"
+version = "0.1.2"
 description = "Compile platform information from 'sys' and 'platform' modules into a single PLATFORM class."
 authors = [
     { name = "redjax", email = "none@none.com" },
@@ -53,7 +53,7 @@ shell = "pdm bump micro && pdm bump tag && pdm lock && pdm build && git push --t
 shell = "pdm lock && pdm publish --repository pypi --verbose"
 
 [tool.pdm.scripts.upload-pypi-test]
-shell = "pdm lock && pdm publish --repository test-pypi --verbose"
+shell = "pdm lock && pdm publish --repository testpypi --verbose"
 
 [tool.pdm.scripts.export]
 shell = "pdm export --prod -o requirements.txt --without-hashes"
