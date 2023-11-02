@@ -1,7 +1,6 @@
 from __future__ import annotations
 
-from . import enums, methods, schemas, utils
-from .enums import (
+from red_sysinfo.domain.enums.platform import (
     EnumLinux,
     EnumMac,
     EnumPlatform,
@@ -10,6 +9,8 @@ from .enums import (
     EnumUnix,
     EnumWin32,
 )
+
+from . import methods, schemas, utils
 from .methods import (
     get_python_base_prefix,
     get_python_copyright,
