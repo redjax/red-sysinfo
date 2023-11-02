@@ -5,6 +5,7 @@ import platform
 
 from typing import NamedTuple, Tuple
 
+
 class EnumPlatform(Enum):
     """Enumerate platform module outputs.
 
