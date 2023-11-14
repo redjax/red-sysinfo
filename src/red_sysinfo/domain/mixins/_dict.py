@@ -1,7 +1,5 @@
-from types import ModuleType
+from dataclasses import dataclass
 from typing import TypeVar, Generic
-
-from dataclasses import dataclass, field
 
 ## Generic type for dataclass classes
 T = TypeVar("T")
