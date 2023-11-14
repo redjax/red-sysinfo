@@ -6,7 +6,9 @@ authors = [
     { name = "redjax", email = "none@none.com" },
     { name = "redjax", email = "jackenyon@gmail.com" },
 ]
-dependencies = []
+dependencies = [
+    "psutil>=5.9.6",
+]
 requires-python = ">=3.11"
 readme = "README.md"
 
