@@ -1,3 +1,3 @@
 from __future__ import annotations
 
-from . import platform
+from . import platform, sysinfo
