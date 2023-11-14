@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field
 from types import ModuleType
-from typing import Any, Generic, NamedTuple, Tuple, TypeVar, Union
+from typing import Any, Tuple, Union
 
 from red_sysinfo.domain.enums.platform import (
     EnumLinux,
@@ -14,6 +14,7 @@ from red_sysinfo.domain.enums.platform import (
     EnumUnix,
     EnumWin32,
 )
+from red_sysinfo.domain.mixins import DictMixin
 
 from .methods import (
     get_python_base_prefix,
@@ -33,9 +34,6 @@ from .methods import (
     get_sys_byteorder,
 )
 
-## Generic type for dataclass classes
-T = TypeVar("T")
-
 
 def get_platform_uname() -> "PlatformUname":
     """Return an initalized PlatformUname instance."""
@@ -49,35 +47,6 @@ def get_platform_python() -> "PlatformPython":
     _python: PlatformPython = PlatformPython()
 
     return _python
-
-
-@dataclass
-class DictMixin:
-    """Mixin class to add "as_dict()" method to classes. Equivalent to .__dict__.
-
-    Add a .as_dict() method to classes that inherit from this mixin. For example,
-    to add .as_dict() method to a parent class, where all children inherit the .as_dict()
-    function, declare parent as:
-
-    @dataclass
-    class Parent(DictMixin):
-        ...
-
-    and call like:
-
-        p = Parent()
-        p_dict = p.as_dict()
-    """
-
-    def as_dict(self: Generic[T]):
-        """Return dict representation of a dataclass instance."""
-        try:
-            return self.__dict__.copy()
-
-        except Exception as exc:
-            raise Exception(
-                f"Unhandled exception converting class instance to dict. Details: {exc}"
-            )
 
 
 @dataclass
