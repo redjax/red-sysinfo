@@ -1,3 +1,3 @@
-from . import schemas
+from . import _dict
 
-from .schemas import DictMixin
+from ._dict import DictMixin
